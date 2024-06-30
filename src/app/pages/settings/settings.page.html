@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list lines="none" class="ion-margin ion-padding">
+    <!-- Dark Mode Toggle -->
+    <ion-item>
+      <ion-label>Dark Mode</ion-label>
+      <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+    </ion-item>
+
+    <!-- Language Selection -->
+    <ion-item>
+      <ion-label>Language</ion-label>
+      <ion-select [(ngModel)]="selectedLanguage">
+        <ion-select-option value="en">English</ion-select-option>
+        <ion-select-option value="es">Spanish</ion-select-option>
+        <ion-select-option value="de">German</ion-select-option>
+        <!-- Add more language options as needed -->
+      </ion-select>
+    </ion-item>
+
+    <!-- Notification Settings -->
+    <ion-item>
+      <ion-label>Notifications</ion-label>
+      <ion-toggle [(ngModel)]="enableNotifications"></ion-toggle>
+    </ion-item>
+
+    <!-- Account Settings (example link) -->
+    <ion-item button (click)="goToAccountSettings()">
+      <ion-label>Account Settings</ion-label>
+      <ion-icon slot="end" name="arrow-forward"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

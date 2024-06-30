@@ -6,13 +6,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Home', url: '/home', icon: 'home' },
+    { title: 'Courses', url: '/courses', icon: 'book' },
+    { title: 'My Courses', url: '/my-courses', icon: 'school' },
+    { title: 'Profile', url: '/profile', icon: 'person' },
+    { title: 'Notifications', url: '/notifications', icon: 'notifications' },
+    { title: 'Messages', url: '/messages', icon: 'mail' },
+    { title: 'Calendar', url: '/calendar', icon: 'calendar' },
+    { title: 'Assignments', url: '/assignments', icon: 'clipboard' },
+    { title: 'Resources', url: '/resources', icon: 'folder' },
+    { title: 'Settings', url: '/settings', icon: 'settings' },
+    { title: 'Support', url: '/support', icon: 'help' },
+    { title: 'About', url: '/about', icon: 'information-circle' }
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+
+  constructor() { }
 }
