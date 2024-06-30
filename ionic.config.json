@@ -1,0 +1,7 @@
+{
+  "name": "LexiAI",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
