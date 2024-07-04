@@ -6,10 +6,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">courses</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+
+  <div class="container">
+    <div class="item" *ngFor="let item of languageList">
+      <ion-card class="card" (click)="openCourse(item)">
+        <ion-img [src]="getIcon(item.code)" [alt]="item.name"></ion-img>
+        <ion-card-header class="header">
+          <ion-card-title class="text-capitalise title">{{item.name}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </div>
+  </div>
+
 </ion-content>

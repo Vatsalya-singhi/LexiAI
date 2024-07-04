@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h1>{{name | titlecase }} Course Levels:</h1>
+
+  <ion-accordion-group (ionChange)="accordianUpdate($event)">
+    <ng-container *ngIf="levelData && levelData.length > 0">
+
+      <ion-accordion *ngFor="let item of levelData;" [value]="item.id">
+        <ion-item slot="header">
+          <ion-label>{{item.title | titlecase}}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+
+          <!-- show steps -->
+          <ng-container *ngIf="loading">
+            <ion-spinner></ion-spinner>
+          </ng-container>
+
+          <ng-container *ngIf="!loading">
+
+            <ng-container *ngIf="stepList?.steps">
+              <h2>Milestones</h2>
+              <ion-list>
+                <ion-item *ngFor="let item of stepList?.steps">
+                  <ion-label>Step {{item.title}}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ng-container>
+
+            <ng-container *ngIf="!stepList?.steps">
+              {{errorText}}
+            </ng-container>
+
+          </ng-container>
+
+
+        </div>
+      </ion-accordion>
+
+    </ng-container>
+
+  </ion-accordion-group>
+
+</ion-content>
