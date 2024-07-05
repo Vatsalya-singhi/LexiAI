@@ -19,6 +19,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/level/level.module').then(m => m.LevelPageModule)
   },
   {
+    path: 'slideshow',
+    loadChildren: () => import('./pages/slideshow/slideshow.module').then(m => m.SlideshowPageModule)
+  },
+  {
     path: 'my-courses',
     loadChildren: () => import('./pages/my-courses/my-courses.module').then(m => m.MyCoursesPageModule)
   },
@@ -67,7 +71,6 @@ const routes: Routes = [
     path: '**',
     redirectTo: '/home'
   },
-
 ];
 
 @NgModule({

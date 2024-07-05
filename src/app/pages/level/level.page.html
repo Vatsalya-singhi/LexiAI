@@ -17,31 +17,30 @@
         <ion-item slot="header">
           <ion-label>{{item.title | titlecase}}</ion-label>
         </ion-item>
-        <div class="ion-padding" slot="content">
 
-          <!-- show steps -->
+        <!-- show steps -->
+        <div class="ion-padding-top" slot="content">
+          <!-- loader -->
           <ng-container *ngIf="loading">
             <ion-spinner></ion-spinner>
           </ng-container>
-
           <ng-container *ngIf="!loading">
-
+            <!-- content listing -->
             <ng-container *ngIf="stepList?.steps">
-              <h2>Milestones</h2>
-              <ion-list>
-                <ion-item *ngFor="let item of stepList?.steps">
+              <h3>Knowledge Milestones</h3>
+              <ion-list [inset]="true">
+                <ion-item *ngFor="let item of stepList?.steps; let i = index;" (click)="openSlideshow(item)">
+                  <ion-icon [color]="(i === 0) ? 'success' : 'danger' " slot="start" name="list-circle"></ion-icon>
                   <ion-label>Step {{item.title}}</ion-label>
+                  <ion-icon color="medium" name="chevron-forward" slot="end"></ion-icon>
                 </ion-item>
               </ion-list>
             </ng-container>
-
+            <!-- error message handling -->
             <ng-container *ngIf="!stepList?.steps">
               {{errorText}}
             </ng-container>
-
           </ng-container>
-
-
         </div>
       </ion-accordion>
 

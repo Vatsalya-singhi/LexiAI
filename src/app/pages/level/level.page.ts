@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { catchError, finalize, of, switchMap, takeWhile } from 'rxjs';
 import { ServerEndpointsService } from 'src/app/common/server-endpoints.service';
+import { UtilsService } from 'src/app/common/utils.service';
 
 @Component({
   selector: 'app-level',
@@ -31,7 +32,8 @@ export class LevelPage implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     public activatedRoute: ActivatedRoute,
-    public server: ServerEndpointsService) { }
+    public server: ServerEndpointsService,
+    public utils: UtilsService) { }
 
   public ngOnInit() {
     this.activatedRoute.paramMap
@@ -56,24 +58,31 @@ export class LevelPage implements OnInit, OnDestroy {
 
   public accordianUpdate(ev: any) {
     this.currentLevel = ev.target.value;
+    if (!this.currentLevel) return;
+
     this.loading = true;
     this.server.getStepsByID(this.currentLevel)
       .pipe(
         takeWhile(() => this.alive),
-        catchError((err) => {
-          this.errorText = "No Content Available";
+        catchError(async (err) => {
+          this.errorText = "Course Content is unavailable";
+          await this.utils.presentToast(`${err.statusText}`);
           return of(null);
         }),
         finalize(() => {
           this.loading = false;
         })
       ).subscribe((data: any) => {
+        if (!data) {
+          this.stepList = [] as any;
+          return;
+        }
         this.stepList = data;
-      }, (err) => {
-        this.errorText = "No Content Available";
-      }, () => {
-        this.loading = false;
       })
+  }
+
+  public openSlideshow(item: { id: number, title: string, slideshowId: number }) {
+    this.router.navigate([`/slideshow`, { slideshowId: item.slideshowId }]);
   }
 
 }
