@@ -19,7 +19,7 @@
         </ion-item>
 
         <!-- show steps -->
-        <div class="ion-padding-top" slot="content">
+        <div class="ion-padding" slot="content">
           <!-- loader -->
           <ng-container *ngIf="loading">
             <ion-spinner></ion-spinner>
@@ -28,7 +28,7 @@
             <!-- content listing -->
             <ng-container *ngIf="stepList?.steps">
               <h3>Knowledge Milestones</h3>
-              <ion-list [inset]="true">
+              <ion-list class="ion-no-padding" [inset]="true">
                 <ion-item *ngFor="let item of stepList?.steps; let i = index;" (click)="openSlideshow(item)">
                   <ion-icon [color]="(i === 0) ? 'success' : 'danger' " slot="start" name="list-circle"></ion-icon>
                   <ion-label>Step {{item.title}}</ion-label>

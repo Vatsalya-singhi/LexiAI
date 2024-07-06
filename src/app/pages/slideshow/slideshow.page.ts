@@ -93,24 +93,21 @@ export class SlideshowPage implements OnInit, OnDestroy {
       .subscribe((data: any[]) => {
         this.displaySlide = data;
       }, async (err) => {
-        const alert = await this.utils
-          .presentAlert(
-            `Alert`,
-            `${err.statusText}`,
-            `This slide is currently unavailable. Please try again later.`,
-            false,
-            [{
-              text: "Okay",
-              role: "Okay",
-              cssClass: 'primary',
-              handler: () => {
-                this.navCtrl.back();
-              }
-            }]);
+        await this.utils.presentAlert(
+          `Alert`,
+          `${err.statusText}`,
+          `This slide is currently unavailable. Please try again later.`,
+          false,
+          [{
+            text: "Okay",
+            role: "Okay",
+            cssClass: 'primary',
+            handler: () => {
+              this.navCtrl.back();
+            }
+          }]);
       });
   }
-
-  // IMAGE_TITLE_SENTENCE
 
   public ngOnDestroy(): void {
     this.alive = false;
