@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { takeWhile, switchMap, of, map, tap, mergeMap, forkJoin, combineLatest, catchError } from 'rxjs';
+import { takeWhile, switchMap, of, map, tap, mergeMap, forkJoin } from 'rxjs';
 import { ServerEndpointsService } from 'src/app/common/server-endpoints.service';
 import { UtilsService } from 'src/app/common/utils.service';
+import { ScreenOrientation } from '@capacitor/screen-orientation';
 
 @Component({
   selector: 'app-slideshow',
@@ -89,10 +90,11 @@ export class SlideshowPage implements OnInit, OnDestroy {
         tap((data: any[]) => {
           return data.sort((a, b) => a.order - b.order);
         }),
-      )
-      .subscribe((data: any[]) => {
+      ).subscribe(async (data: any[]) => {
+        await this.updateOrientation('landscape');
         this.displaySlide = data;
       }, async (err) => {
+        await this.updateOrientation('portrait');
         await this.utils.presentAlert(
           `Alert`,
           `${err.statusText}`,
@@ -109,8 +111,29 @@ export class SlideshowPage implements OnInit, OnDestroy {
       });
   }
 
-  public ngOnDestroy(): void {
+  public async ngOnDestroy() {
     this.alive = false;
+    await this.updateOrientation('portrait');
+  }
+
+  public async ionViewWillLeave() {
+    await this.updateOrientation('portrait');
+  }
+
+  public async ionViewDidLeave() {
+    await this.updateOrientation('portrait');
+  }
+
+  public async updateOrientation(orientation: 'landscape' | 'portrait') {
+    try {
+      await ScreenOrientation.lock({ orientation });
+    } catch (err) { }
+  }
+
+  public async unlockOrientation() {
+    try {
+      await ScreenOrientation.unlock();
+    } catch (err) { }
   }
 
 }

@@ -1,64 +1,69 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content [fullscreen]="true">
   <swiper-container [pagination]="true" navigation="true">
-
     <swiper-slide class="swiperSlide" *ngFor="let slide of displaySlide;let index = index;">
 
-      <ion-card>
-        <ion-card-content>
-          <ng-container [ngSwitch]="slide.template">
-            <ng-container *ngSwitchCase="'LETTER_PRESENTATION'" [ngTemplateOutlet]="LETTER_PRESENTATION_Template"
-              [ngTemplateOutletContext]="{ slide: slide, index: index }"></ng-container>
+      <ng-container [ngSwitch]="slide.template">
+        <ng-container *ngSwitchCase="'LETTER_PRESENTATION'" [ngTemplateOutlet]="LETTER_PRESENTATION_Template"
+          [ngTemplateOutletContext]="{ slide: slide, index: index }"></ng-container>
 
-            <ng-container *ngSwitchCase="'IMAGE_TITLE_SENTENCE'" [ngTemplateOutlet]="IMAGE_TITLE_SENTENCE_Template"
-              [ngTemplateOutletContext]="{ slide: slide, index: index }"></ng-container>
+        <ng-container *ngSwitchCase="'IMAGE_TITLE_SENTENCE'" [ngTemplateOutlet]="IMAGE_TITLE_SENTENCE_Template"
+          [ngTemplateOutletContext]="{ slide: slide, index: index }"></ng-container>
 
-            <ng-container *ngSwitchCase="'MULTIPLE_CHOICE_TEXT'" [ngTemplateOutlet]="MULTIPLE_CHOICE_TEXT_Template"
-              [ngTemplateOutletContext]="{ slide: slide, index: index }"></ng-container>
+        <ng-container *ngSwitchCase="'MULTIPLE_CHOICE_TEXT'" [ngTemplateOutlet]="MULTIPLE_CHOICE_TEXT_Template"
+          [ngTemplateOutletContext]="{ slide: slide, index: index }"></ng-container>
 
-            <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultTemplate"></ng-container>
-          </ng-container>
-        </ion-card-content>
-      </ion-card>
+        <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultTemplate"></ng-container>
+      </ng-container>
 
     </swiper-slide>
-
   </swiper-container>
 </ion-content>
 
 
 <ng-template #LETTER_PRESENTATION_Template let-slide="slide" let-index="index">
-  <ion-item>
-    <ion-label>Slide {{index}}</ion-label>
-  </ion-item>
+  <ion-card [style.background-color]="slide?.backgroundColor ?? '#000000'">
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Slide {{index}}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ng-template>
 
 <ng-template #IMAGE_TITLE_SENTENCE_Template let-slide="slide" let-index="index">
-  <ion-item>
-    <ion-thumbnail slot="start">
-      <img alt="Slide image" [src]="slide?.images[0]?.url" />
-    </ion-thumbnail>
-    <ion-label>{{slide?.text ?? "Default Text displayed here"}}</ion-label>
-  </ion-item>
+  <ion-card [style.background-color]="slide?.backgroundColor ?? '#000000'">
+    <ion-card-content>
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-img alt="Slide image" [src]="slide?.images[0]?.url"
+            (click)="audioPlayer.paused ? audioPlayer.play() : audioPlayer.pause()">
+            <audio #audioPlayer [src]="slide.audioUrl">Your browser does not support the audio element</audio>
+          </ion-img>
+        </ion-thumbnail>
+        <ion-label>{{slide?.text ?? "Default Text displayed here"}}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ng-template>
 
 <ng-template #MULTIPLE_CHOICE_TEXT_Template let-slide="slide" let-index="index">
-  <ion-item>
-    <ion-label>Slide {{index}}</ion-label>
-  </ion-item>
+  <ion-card [style.background-color]="slide?.backgroundColor ?? '#000000'">
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Slide {{index}}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ng-template>
 
 <ng-template #defaultTemplate>
-  <ion-list>
-    <ion-item>
-      <ion-label>Default Template here!</ion-label>
-    </ion-item>
-  </ion-list>
+  <ion-card [style.background-color]="'#000000'">
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-label>Default Template here!</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ng-template>
