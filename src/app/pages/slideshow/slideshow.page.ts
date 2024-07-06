@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { takeWhile, switchMap, of, map, tap, mergeMap, forkJoin, combineLatest } from 'rxjs';
+import { takeWhile, switchMap, of, map, tap, mergeMap, forkJoin, combineLatest, catchError } from 'rxjs';
 import { ServerEndpointsService } from 'src/app/common/server-endpoints.service';
 import { UtilsService } from 'src/app/common/utils.service';
 
@@ -88,10 +88,25 @@ export class SlideshowPage implements OnInit, OnDestroy {
         }),
         tap((data: any[]) => {
           return data.sort((a, b) => a.order - b.order);
-        })
+        }),
       )
       .subscribe((data: any[]) => {
         this.displaySlide = data;
+      }, async (err) => {
+        const alert = await this.utils
+          .presentAlert(
+            `Alert`,
+            `${err.statusText}`,
+            `This slide is currently unavailable. Please try again later.`,
+            false,
+            [{
+              text: "Okay",
+              role: "Okay",
+              cssClass: 'primary',
+              handler: () => {
+                this.navCtrl.back();
+              }
+            }]);
       });
   }
 
